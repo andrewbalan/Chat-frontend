@@ -108,7 +108,7 @@ module.exports = function makeWebpackConfig () {
       // Rename the file using the asset hash
       // Pass along the updated reference to your code
       // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.+)?$/,
       loader: 'file'
     }, {
       // HTML LOADER
@@ -116,6 +116,17 @@ module.exports = function makeWebpackConfig () {
       // Allow loading html through js
       test: /\.html$/,
       loader: 'raw'
+    }, {
+      // STYLUS LOADER
+      // Allow stylus loading 
+      test: /\.styl$/,
+      loader: 'style-loader!css-loader!stylus-loader'
+    }, {
+      // JADE LOADER
+      // Reference: https://github.com/webpack/jade-loader
+      // Allow loading jade through js
+      test: /\.jade$/,
+      loader: 'jade-loader'
     }]
   };
 

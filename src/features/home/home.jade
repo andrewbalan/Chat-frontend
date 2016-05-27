@@ -1,0 +1,109 @@
+.aside
+  .list-holder
+    h5.title.is-5 Opened dialogs
+    article.media(
+      ng-repeat='chat in home.openedChats',
+      ng-click='home.setActiveChat(chat._id)',
+      ng-class="{'active': home.activeChat === chat._id}"
+    )
+      figure.media-left
+        p.image.is-24x24
+          img.thumbnail(src='http://placehold.it/24x24')
+      .media-content
+        .content
+          p
+            strong {{chat.caption}}
+            small @{{chat._creator.username}}
+      .media-right
+        button.delete(
+          ng-if='home.$rootScope.user.id === chat._creator._id',
+          ng-click='home.deleteChat($event, chat._id)'
+        )
+        a.button.is-primary.is-outlined.is-small(
+          ng-if='home.$rootScope.user.id !== chat._creator._id',
+          ng-click='home.leaveChat($event, chat._id)'
+        ) leave
+
+    hr
+    h5.title.is-5 Available dialogs
+    article.media(ng-repeat='chat in home.availableChats')
+      figure.media-left
+        p.image.is-24x24
+          img.thumbnail(src='http://placehold.it/24x24')
+      .media-content
+        .content
+          p
+            strong {{chat.caption}}
+            small @{{chat._creator.username}}
+      .media-right
+        a.button.is-primary.is-outlined.is-small(
+          ng-click='home.joinChat($event, chat._id)'
+        ) join
+
+  .createDialogHolder
+    button#createDialogBtn.button.is-primary.is-outlined(
+      ng-click='home.showCreateChatForm()',
+      ng-hide='home.createChatForm.visible'
+    )
+      span.icon
+        i.fa.fa-commenting
+      | Create new dialog
+
+    .createDialogFormHolder(ng-if='home.createChatForm.visible')
+      label.label Caption
+      p.control
+        input.input(
+          type='text',
+          placeholder='Dialog caption',
+          ng-model='home.createChatForm.model.caption',
+          ng-class="{'is-danger': home.createChatForm.warnings.caption}"
+        )
+        span.help.is-danger {{home.createChatForm.warnings.caption}}
+      p.control
+        button.button.is-primary(ng-click='home.createChat()') Submit
+        | &nbsp;
+        button.button(ng-click='home.hideCreateChatForm()') Cancel
+
+.main-holder
+  .msgs-holder
+    .container
+
+      article.media(
+        ng-repeat='message in home.messages',
+        ng-attr-id='{{message._id}}'
+      )
+        figure.media-left
+          p.image.is-64x64
+            img(src='http://placehold.it/128x128')
+        .media-content
+          .content
+            p
+              strong {{message.sender.name}}
+              small @{{message.sender.username}}
+              small {{message.created_at}}
+              br
+              | {{message.text}}
+
+  .form-holder
+    .form
+      article.media
+        figure.media-left
+          p.image.is-64x64
+            img(src='/img/hipster.jpg')
+        .media-content
+          form(
+            ng-submit='home.postMessage()'
+          )
+            p.control
+              textarea.textarea(
+                name='message',
+                placeholder='Your message...',
+                ng-model='home.message',
+                ng-enter='home.postMessage()'
+              )
+            p.control
+              input.button.is-primary(
+                type="submit",
+                id="submit",
+                value="Send"
+              )

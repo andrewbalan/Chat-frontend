@@ -1,0 +1,52 @@
+.header-holder
+  header.header
+    .container
+      // Left side
+      .header-left
+        a.header-item
+          img(
+            src='/img/Chat.png',
+            alt='Logo'
+          )
+
+        a.header-tab(
+          ng-hide='nav.$rootScope.isLoggedIn',
+          ui-sref-active='is-active',
+          ui-sref='login'
+        ) Log in
+
+        a.header-tab(
+          ng-hide='nav.$rootScope.isLoggedIn',
+          ui-sref-active='is-active',
+          ui-sref='signup'
+        ) Signup
+
+        a.header-tab(
+          ng-hide='!nav.$rootScope.isLoggedIn',
+          ui-sref-active='is-active',
+          ui-sref='about'
+        ) About
+
+        a.header-tab(
+          ng-hide='!nav.$rootScope.isLoggedIn',
+          ui-sref-active='is-active',
+          ui-sref='home'
+        ) Home
+
+      // Hamburger menu (on mobile)
+      span.header-toggle
+        span
+        span
+        span
+
+      // Right side
+      .header-right.header-menu(ng-if='nav.$rootScope.isLoggedIn')
+        
+        span.header-item
+          | Logged as {{ nav.$rootScope.user.name }}
+        
+        span.header-item
+          a.button(
+            href='#',
+            ng-click='nav.logout()'
+          ) Logout

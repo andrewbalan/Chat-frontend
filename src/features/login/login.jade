@@ -1,0 +1,39 @@
+section.hero.is-left.is-primary.is-bold
+  .hero-content
+    .container
+      h1.title Login page
+      h2.subtitle Type in your credentials here
+
+section.section(style='background: #f5f7fa;')
+  .container
+    .columns
+      .column.is-6.is-offset-3
+        label.label(for='login') Username
+        p.control
+          input.input(
+            ng-class="{'is-danger': login.messages.username}",
+            name='username',
+            type='text',
+            placeholder='Enter username please',
+            ng-model='login.credentials.username'
+          )
+          span.help(
+            ng-class="{'is-danger': login.messages.username}"
+          ) {{login.messages.username}}
+        label.label(for='login') Password
+        p.control
+          input.input(
+            ng-class="{'is-danger': login.messages.password}",
+            name='password',
+            type='password',
+            placeholder='Enter password please',
+            ng-model='login.credentials.password'
+          )
+          span.help(
+            ng-class="{'is-danger': login.messages.password}"
+          ) {{login.messages.password}}
+        br
+        button.button.is-primary(
+          ng-class="{'is-loading': login.isLoading}",
+          ng-click='login.submit()'
+        ) Login
