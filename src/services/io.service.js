@@ -11,7 +11,7 @@ let Io = function($rootScope) {
     },
 
     on: function (socket, eventName, callback) {
-      socket.on(eventName, function () {  
+      socket.on(eventName, function () {
         var args = arguments;
         $rootScope.$apply(function () {
           callback.apply(socket, args);
@@ -27,10 +27,10 @@ let Io = function($rootScope) {
             callback.apply(socket, args);
           }
         });
-      })
+      });
     }
   };
-}
+};
 
 Io.$inject = ['$rootScope'];
 

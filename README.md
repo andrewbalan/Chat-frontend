@@ -1,21 +1,17 @@
-# angular-webpack
+# Chat (frontend)
+This is the frontend of my chat application. It one was developed
+mainly with Angular.js/socket-io/webpack/es6 based on
+this [workflow](https://github.com/preboot/angular-webpack).
 
-[![Dependency Status](https://david-dm.org/preboot/angular-webpack/status.svg)](https://david-dm.org/preboot/angular-webpack#info=dependencies) [![devDependency Status](https://david-dm.org/preboot/angular-webpack/dev-status.svg)](https://david-dm.org/preboot/angular-webpack#info=devDependencies)
 
-A complete, yet simple, starter for Angular using Webpack.
 
-This workflow serves as a starting point for building Angular 1.x applications using Webpack. Should be noted that apart from the pre-installed angular package, this workflow is pretty much generic.
+![App screen](./screen.png)
 
-* Heavily commented webpack configuration with reasonable defaults.
-* ES6, and ES7 support with babel.
-* Source maps included in all builds.
-* Development server with live reload.
-* Production builds with cache busting.
-* Testing environment using karma to run tests and jasmine as the framework.
-* Code coverage when tests are run.
-* No gulp and no grunt, just npm scripts.
-
->Warning: Make sure you're using the latest version of Node.js and NPM
+During the process of developing of this app it were resolved such tasks as:
+* ordinary work with angular directives, services and such like
+* token based authorization
+* work with socket-io separate rooms
+* file streaming through socket-io
 
 ### Quick start
 
@@ -23,10 +19,10 @@ This workflow serves as a starting point for building Angular 1.x applications u
 
 ```bash
 # clone our repo
-$ git clone https://github.com/preboot/angular-webpack.git my-app
+$ git clone https://github.com/andrewbalan/Chat-frontend.git Chat-frontend
 
-# change directory to your app
-$ cd my-app
+# change directory
+$ cd Chat-frontend
 
 # install the dependencies with npm
 $ npm install

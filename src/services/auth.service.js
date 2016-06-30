@@ -17,13 +17,18 @@ class Auth {
     this.$rootScope.isLoggedIn = this.isLoggedIn();
   }
 
-  signup(name, username, password) {
+  signup({name, username, password, avatar}) {
     let $http = this.$injector.get('$http');
 
-    return $http.post('http://localhost:3000/api/signup', {
-      name: name,
-      username: username,
-      password: password
+    let fd = new FormData();
+    fd.append('name', name);
+    fd.append('username', username);
+    fd.append('password', password);
+    fd.append('avatar', avatar);
+
+    return $http.post(`${HOST}/api/signup`, fd,{
+      transformRequest: angular.identity,
+      headers: {'Content-Type': undefined}
     })
     .then(
       result => {
@@ -31,7 +36,7 @@ class Auth {
         this.authToken.setToken(result.data.token);
         this.getUser();
         return result;
-      }, 
+      },
       error => {
         return error;
     });
@@ -40,7 +45,7 @@ class Auth {
   login(username, password) {
     let $http = this.$injector.get('$http');
 
-    return $http.post('http://localhost:3000/api/login', {
+    return $http.post(`${HOST}/api/login`, {
       username: username,
       password: password
     })
@@ -50,7 +55,7 @@ class Auth {
         this.authToken.setToken(result.data.token);
         this.getUser();
         return result;
-      }, 
+      },
       error => {
         return error;
     });
@@ -58,8 +63,7 @@ class Auth {
 
   logout() {
     this.$rootScope.isLoggedIn = false;
-    
-    // оператор spread
+
     this.$rootScope.user.name     = '';
     this.$rootScope.user.id       = '';
     this.$rootScope.user.username = '';
@@ -79,15 +83,16 @@ class Auth {
   getUser() {
     let $http = this.$injector.get('$http');
 
-    return $http.get('http://localhost:3000/api/me')
+    return $http.get(`${HOST}/api/me`)
     .then(
       result => {
         this.$rootScope.user.name     = result.data.name;
         this.$rootScope.user.id       = result.data._id;
         this.$rootScope.user.username = result.data.username;
+        this.$rootScope.user.avatar   = result.data.avatar;
 
         return result;
-      }, 
+      },
       error => {
         return error;
     });
@@ -96,7 +101,7 @@ class Auth {
   checkAccess(event, toState, toParams, fromState, fromParams) {
     switch (toState.data.access) {
       case 'all':
-        // any actions if needed
+        // Any actions if needed
         break;
       case 'onlyLoggedIn':
         if (!this.isLoggedIn()) {

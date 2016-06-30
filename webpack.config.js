@@ -15,7 +15,7 @@ var ENV = process.env.npm_lifecycle_event;
 var isTest = ENV === 'test' || ENV === 'test-watch';
 var isProd = ENV === 'build';
 
-module.exports = function makeWebpackConfig () {
+module.exports = function makeWebpackConfig() {
   /**
    * Config
    * Reference: http://webpack.github.io/docs/configuration.html
@@ -88,46 +88,46 @@ module.exports = function makeWebpackConfig () {
       loader: 'babel',
       exclude: /node_modules/
     }, {
-      // CSS LOADER
-      // Reference: https://github.com/webpack/css-loader
-      // Allow loading css through js
-      //
-      // Reference: https://github.com/postcss/postcss-loader
-      // Postprocess your css with PostCSS plugins
-      test: /\.css$/,
-      // Reference: https://github.com/webpack/extract-text-webpack-plugin
-      // Extract css files in production builds
-      //
-      // Reference: https://github.com/webpack/style-loader
-      // Use style-loader in development.
-      loader: isTest ? 'null' : ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
-    }, {
-      // ASSET LOADER
-      // Reference: https://github.com/webpack/file-loader
-      // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
-      // Rename the file using the asset hash
-      // Pass along the updated reference to your code
-      // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.+)?$/,
-      loader: 'file'
-    }, {
-      // HTML LOADER
-      // Reference: https://github.com/webpack/raw-loader
-      // Allow loading html through js
-      test: /\.html$/,
-      loader: 'raw'
-    }, {
-      // STYLUS LOADER
-      // Allow stylus loading 
-      test: /\.styl$/,
-      loader: 'style-loader!css-loader!stylus-loader'
-    }, {
-      // JADE LOADER
-      // Reference: https://github.com/webpack/jade-loader
-      // Allow loading jade through js
-      test: /\.jade$/,
-      loader: 'jade-loader'
-    }]
+        // CSS LOADER
+        // Reference: https://github.com/webpack/css-loader
+        // Allow loading css through js
+        //
+        // Reference: https://github.com/postcss/postcss-loader
+        // Postprocess your css with PostCSS plugins
+        test: /\.css$/,
+        // Reference: https://github.com/webpack/extract-text-webpack-plugin
+        // Extract css files in production builds
+        //
+        // Reference: https://github.com/webpack/style-loader
+        // Use style-loader in development.
+        loader: isTest ? 'null' : ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+      }, {
+        // ASSET LOADER
+        // Reference: https://github.com/webpack/file-loader
+        // Copy png, jpg, jpeg, gif, svg, woff, woff2, ttf, eot files to output
+        // Rename the file using the asset hash
+        // Pass along the updated reference to your code
+        // You can add here any file extension you want to get copied to your output
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.+)?$/,
+        loader: 'file'
+      }, {
+        // HTML LOADER
+        // Reference: https://github.com/webpack/raw-loader
+        // Allow loading html through js
+        test: /\.html$/,
+        loader: 'raw'
+      }, {
+        // STYLUS LOADER
+        // Allow stylus loading
+        test: /\.styl$/,
+        loader: 'style-loader!css-loader!stylus-loader'
+      }, {
+        // JADE LOADER
+        // Reference: https://github.com/webpack/jade-loader
+        // Allow loading jade through js
+        test: /\.jade$/,
+        loader: 'jade-loader'
+      }]
   };
 
   // ISPARTA LOADER
@@ -163,11 +163,15 @@ module.exports = function makeWebpackConfig () {
    */
   config.plugins = [];
 
+
   // Skip rendering index.html in test mode
   if (!isTest) {
-    // Reference: https://github.com/ampedandwired/html-webpack-plugin
-    // Render index.html
     config.plugins.push(
+      new webpack.DefinePlugin({
+        HOST: JSON.stringify(isProd ? '' : 'http://localhost:3000')
+      }),
+      // Reference: https://github.com/ampedandwired/html-webpack-plugin
+      // Render index.html
       new HtmlWebpackPlugin({
         template: './src/public/index.html',
         inject: 'body'
@@ -176,7 +180,7 @@ module.exports = function makeWebpackConfig () {
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files
       // Disabled when in test mode or not in build mode
-      new ExtractTextPlugin('[name].[hash].css', {disable: !isProd})
+      new ExtractTextPlugin('[name].[hash].css', { disable: !isProd })
     )
   }
 
@@ -214,4 +218,4 @@ module.exports = function makeWebpackConfig () {
   };
 
   return config;
-}();
+} ();

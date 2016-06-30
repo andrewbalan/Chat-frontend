@@ -10,7 +10,7 @@ module.exports = function karmaConfig (config) {
     reporters: [
       // Reference: https://github.com/mlex/karma-spec-reporter
       // Set reporter to print detailed results to console
-      'progress',
+      'spec',
 
       // Reference: https://github.com/karma-runner/karma-coverage
       // Output code coverage files

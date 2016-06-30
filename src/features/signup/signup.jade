@@ -1,52 +1,72 @@
+//- HEADER
 section.hero.is-left.is-primary.is-bold
   .hero-content
     .container
       h1.title Signup page
       h2.subtitle Fill all the fields please
+
+//- CONTENT
 section.section(style='background: #f5f7fa;')
   .container
     .columns
       .column.is-6.is-offset-3
-        label.label(for='name') Name
-        p.control
-          input.input(
-            ng-class="{'is-danger': signup.messages.name}",
-            name='name',
-            type='text',
-            placeholder='Enter the name please',
-            ng-model='signup.credentials.name'
-          )
-          span.help(
-            ng-class="{'is-danger': signup.messages.name}"
-          ) {{signup.messages.name}}
+        //- FORM
+        form(
+          enctype="multipart/form-data"
+          id="reg-form"
+        )
+          label.label(for='name') Name
+          p.control
+            input.input(
+              ng-class="{'is-danger': signup.alerts.name}",
+              name='name',
+              type='text',
+              placeholder='Enter the name please',
+              ng-model='signup.credentials.name'
+            )
+            span.help(
+              ng-class="{'is-danger': signup.alerts.name}"
+            ) {{signup.alerts.name}}
 
-        label.label(for='username') Username
-        p.control
-          input.input(
-            ng-class="{'is-danger': signup.messages.username}",
-            name='username',
-            type='text',
-            placeholder='Enter the username please',
-            ng-model='signup.credentials.username'
-          )
-          span.help(
-            ng-class="{'is-danger': signup.messages.username}"
-          ) {{signup.messages.username}}
+          label.label(for='username') Username
+          p.control
+            input.input(
+              ng-class="{'is-danger': signup.alerts.username}",
+              name='username',
+              type='text',
+              placeholder='Enter the username please',
+              ng-model='signup.credentials.username'
+            )
+            span.help(
+              ng-class="{'is-danger': signup.alerts.username}"
+            ) {{signup.alerts.username}}
 
-        label.label(for='password') Password
-        p.control
-          input.input(
-            ng-class="{'is-danger': signup.messages.password}",
-            name='password',
-            type='password',
-            placeholder='Enter the password please',
-            ng-model='signup.credentials.password'
-          )
-          span.help(
-            ng-class="{'is-danger': signup.messages.password}"
-          ) {{signup.messages.password}}
-        br
-        button.button.is-primary(
-          ng-class="{'is-loading': signup.isLoading}",
-          ng-click='signup.submit()'
-        ) Send
+          label.label(for='password') Password
+          p.control
+            input.input(
+              ng-class="{'is-danger': signup.alerts.password}",
+              name='password',
+              type='password',
+              placeholder='Enter the password please',
+              ng-model='signup.credentials.password'
+            )
+            span.help(
+              ng-class="{'is-danger': signup.alerts.password}"
+            ) {{signup.alerts.password}}
+
+          label.label(for='avatar') Avatar
+          p.control
+            input.input(
+              ng-class="{'is-danger': signup.alerts.avatar}",
+              type="file",
+              name="avatar"
+              file-model="signup.credentials.avatar"
+            )
+            span.help(
+              ng-class="{'is-danger': signup.alerts.avatar}"
+            ) {{signup.alerts.avatar}}
+          br
+          button.button.is-primary(
+            ng-class="{'is-loading': signup.isLoading}",
+            ng-click="signup.submit($event)"
+          ) Send

@@ -1,6 +1,50 @@
+//- ASIDE HOLDER
 .aside
+
+  //- CREATE DIALOG
+  .createDialogHolder
+    button#createDialogBtn.button.is-primary(
+      ng-click='home.showCreateChatForm()',
+      ng-hide='home.createChatForm.visible'
+    )
+      span.icon
+        i.fa.fa-commenting
+      | Create new dialog
+
+    .createDialogFormHolder(ng-if='home.createChatForm.visible')
+
+      //- TEXT INPUT
+      label.label Caption
+      p.control
+        input.input(
+          type='text',
+          placeholder='Dialog caption',
+          ng-model='home.createChatForm.model.caption',
+          ng-class="{'is-danger': home.createChatForm.warnings.caption}"
+        )
+        span.help.is-danger {{home.createChatForm.warnings.caption}}
+
+      //- FILE INPUT
+      label.label Picture
+      p.control
+        input.input(
+          type='file',
+          ng-class="{'is-danger': home.createChatForm.warnings.avatar}"
+          file-model="home.createChatForm.model.avatar"
+        )
+        span.help.is-danger {{home.createChatForm.warnings.avatar}}
+
+      //- SUBMIT
+      p.control
+        button.button.is-primary(ng-click='home.createChat()') Submit
+        | &nbsp;
+        button.button(ng-click='home.hideCreateChatForm()') Cancel
+
+  //- LIST OF CHATS HOLDER
   .list-holder
+    //- OPENED DIALOGS
     h5.title.is-5 Opened dialogs
+    h5(ng-if='home.activeChat === null') There are no opened chats
     article.media(
       ng-repeat='chat in home.openedChats',
       ng-click='home.setActiveChat(chat._id)',
@@ -8,7 +52,9 @@
     )
       figure.media-left
         p.image.is-24x24
-          img.thumbnail(src='http://placehold.it/24x24')
+          img.thumbnail(
+            ng-src="{{home.host + '/uploaded/' + chat.avatar}}"
+          )
       .media-content
         .content
           p
@@ -25,11 +71,13 @@
         ) leave
 
     hr
+
+    //- AVAILABLE DIALOGS
     h5.title.is-5 Available dialogs
     article.media(ng-repeat='chat in home.availableChats')
       figure.media-left
         p.image.is-24x24
-          img.thumbnail(src='http://placehold.it/24x24')
+          img.thumbnail(ng-src="{{home.host + '/uploaded/' + chat.avatar}}")
       .media-content
         .content
           p
@@ -40,60 +88,61 @@
           ng-click='home.joinChat($event, chat._id)'
         ) join
 
-  .createDialogHolder
-    button#createDialogBtn.button.is-primary.is-outlined(
-      ng-click='home.showCreateChatForm()',
-      ng-hide='home.createChatForm.visible'
-    )
-      span.icon
-        i.fa.fa-commenting
-      | Create new dialog
-
-    .createDialogFormHolder(ng-if='home.createChatForm.visible')
-      label.label Caption
-      p.control
-        input.input(
-          type='text',
-          placeholder='Dialog caption',
-          ng-model='home.createChatForm.model.caption',
-          ng-class="{'is-danger': home.createChatForm.warnings.caption}"
-        )
-        span.help.is-danger {{home.createChatForm.warnings.caption}}
-      p.control
-        button.button.is-primary(ng-click='home.createChat()') Submit
-        | &nbsp;
-        button.button(ng-click='home.hideCreateChatForm()') Cancel
-
+//- MAIN HOLDER
 .main-holder
+
+  //- MESSAGES
   .msgs-holder
     .container
 
+      //- MESSAGE INSTANCE
       article.media(
         ng-repeat='message in home.messages',
         ng-attr-id='{{message._id}}'
       )
-        figure.media-left
+
+        figure.media-left(
+          ng-hide='message.notification'
+        )
           p.image.is-64x64
-            img(src='http://placehold.it/128x128')
-        .media-content
+            img(ng-src="{{home.host + '/uploaded/' + message._sender.avatar}}")
+        .media-content(
+          ng-hide='message.notification'
+        )
           .content
             p
-              strong {{message.sender.name}}
-              small @{{message.sender.username}}
+              strong {{message._sender.name}}
+              small @{{message._sender.username}}
               small {{message.created_at}}
               br
               | {{message.text}}
+        .media-content(
+          ng-if='message.notification',
+          style={
+            'text-align': 'center'
+          }
+        )
+          br
+          i {{message.text}}
+          br
+          br
 
+  //- POST FROM HOLDER
   .form-holder
     .form
       article.media
+
+        //- USER'S AVATAR
         figure.media-left
           p.image.is-64x64
-            img(src='/img/hipster.jpg')
+            img(
+              ng-src="{{home.host + '/uploaded/' + home.$rootScope.user.avatar}}"
+            )
         .media-content
           form(
             ng-submit='home.postMessage()'
           )
+            //- TEXTAREA
             p.control
               textarea.textarea(
                 name='message',
@@ -101,6 +150,8 @@
                 ng-model='home.message',
                 ng-enter='home.postMessage()'
               )
+
+            //- BUTTON
             p.control
               input.button.is-primary(
                 type="submit",

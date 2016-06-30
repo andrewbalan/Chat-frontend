@@ -3,7 +3,6 @@ import uirouter from 'angular-ui-router';
 
 import routing from './about.routes';
 import AboutController from './about.controller';
-// import randomNames from '../../services/randomNames.service';
 
 
 export default angular.module('app.about', [uirouter/*, randomNames*/])
