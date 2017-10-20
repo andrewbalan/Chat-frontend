@@ -10,10 +10,9 @@ The whole process of development is based on this
 
 ![App screen](./screen.png)
 
-During the process of developing of this app it were resolved such tasks as:
-* ordinary work with angular directives, services and such like
+Features:
 * token based authorization
-* work with socket-io separate rooms
+* work with socket-io
 * file streaming through socket-io
 
 ### Quick start
@@ -33,8 +32,3 @@ $ npm start
 ```
 
 go to [http://localhost:8080](http://localhost:8080) in your browser.
-
-
-# License
-
-[MIT](/LICENSE)
